@@ -19,6 +19,7 @@ import {
   Satuan,
   SatuanDetail,
   Notifikasi,
+  Pushdata,
 } from '../pages';
 import { colors } from '../utils';
 import { Icon } from 'react-native-elements';
@@ -126,6 +127,15 @@ export default function Router() {
       <Stack.Screen
         name="InformasiDetail"
         component={InformasiDetail}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      <Stack.Screen
+        name="Pushdata"
+        component={Pushdata}
         options={{
           headerShown: false,
 

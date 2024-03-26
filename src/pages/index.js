@@ -15,6 +15,7 @@ import Lokasi from './Menu/Lokasi';
 import LokasiDetail from './Menu/LokasiDetail';
 import Informasi from './Menu/Informasi';
 import InformasiDetail from './Menu/InformasiDetail';
+import Pushdata from './Menu/Pushdata';
 
 
 
@@ -22,6 +23,7 @@ import InformasiDetail from './Menu/InformasiDetail';
 export {
   Splash,
   Login,
+  Pushdata,
   Home,
   Notification,
   Task,
@@ -37,5 +39,4 @@ export {
   LokasiDetail,
   Informasi,
   InformasiDetail
-
 };

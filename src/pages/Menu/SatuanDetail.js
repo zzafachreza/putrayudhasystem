@@ -12,6 +12,8 @@ import YoutubePlayer from "react-native-youtube-iframe";
 export default function SatuanDetail({ navigation, route }) {
 
     const item = route.params;
+
+    console.log(item);
     return (
         <SafeAreaView style={{
             flex: 1,

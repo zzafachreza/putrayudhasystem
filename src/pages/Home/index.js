@@ -37,7 +37,7 @@ export default function Home({ navigation, route }) {
   const PlaySuara = () => {
     try {
       // play the file tone.mp3
-      SoundPlayer.playSoundFile('alarm', 'mp3')
+      SoundPlayer.playSoundFile('tni', 'mp3')
       // or play from url
 
     } catch (e) {
@@ -46,9 +46,6 @@ export default function Home({ navigation, route }) {
   }
 
   useEffect(() => {
-
-
-
 
     Animated.timing(ImageAnimation, {
       toValue: 0,
@@ -162,11 +159,12 @@ export default function Home({ navigation, route }) {
   const MyList = ({ label = 'Profile Kantor', img = require('../../assets/A1.png'), onPress }) => {
     return (
       <TouchableWithoutFeedback onPress={onPress}>
-        <LinearGradient colors={[colors.secondary, colors.secondary]} style={{
+        <View style={{
           flex: 1,
           marginHorizontal: 10,
           borderRadius: 10,
-          backgroundColor: colors.primary,
+          backgroundColor: colors.white,
+          opacity: 0.9,
           borderColor: colors.warning,
           borderWidth: 2,
           overflow: 'hidden'
@@ -193,7 +191,7 @@ export default function Home({ navigation, route }) {
               color: colors.white
             }}>{label}</Text>
           </View>
-        </LinearGradient>
+        </View>
       </TouchableWithoutFeedback>
     )
   }
@@ -203,7 +201,7 @@ export default function Home({ navigation, route }) {
 
 
 
-    <SafeAreaView style={styles.container}>
+    <ImageBackground source={require('../../assets/back.jpg')} style={styles.container}>
       {/* header */}
       <View style={{
         backgroundColor: colors.primary,
@@ -282,8 +280,8 @@ export default function Home({ navigation, route }) {
           flexDirection: 'row'
         }}>
 
-          <MyList label='Profil Kantor' onPress={() => navigation.navigate('Satuan')} img={require('../../assets/A1.png')} />
-          <MyList label='Notifkasi' onPress={() => navigation.navigate('Notifikasi')} img={require('../../assets/A2.png')} />
+          <MyList label='Profil Satuan' onPress={() => navigation.navigate('Satuan')} img={require('../../assets/A1.png')} />
+          <MyList label='Alarm' onPress={() => navigation.navigate('Notifikasi')} img={require('../../assets/A2.png')} />
         </View>
         <View style={{
           marginTop: 10,
@@ -299,7 +297,7 @@ export default function Home({ navigation, route }) {
 
       </View>
 
-    </SafeAreaView >
+    </ImageBackground >
   )
 }
 

@@ -1,10 +1,10 @@
-import { ActivityIndicator, FlatList, Image, ImageBackground, Linking, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Linking, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { DimensionThisPhone, colors, fonts, windowHeight, windowWidth } from '../../utils'
 import { Icon } from 'react-native-elements';
 import YoutubePlayer from "react-native-youtube-iframe";
 import axios from 'axios';
-import { apiURL } from '../../utils/localStorage';
+import { apiURL, getData } from '../../utils/localStorage';
 import moment from 'moment';
 import { MyHeader, MyInput } from '../../components';
 export default function ({ navigation, route }) {
@@ -14,12 +14,16 @@ export default function ({ navigation, route }) {
 
     const getDataTransaksi = () => {
         setLoading(true);
-        axios.post(apiURL + 'informasi').then(res => {
-            console.log(res.data);
-            setData(res.data);
-            setTMP(res.data)
-        }).finally(() => {
-            setLoading(false)
+        getData('user').then(uu => {
+            axios.post(apiURL + 'notifikasi', {
+                id: uu.id
+            }).then(res => {
+                console.log(res.data);
+                setData(res.data);
+                setTMP(res.data)
+            }).finally(() => {
+                setLoading(false)
+            })
         })
     }
 
@@ -32,45 +36,34 @@ export default function ({ navigation, route }) {
 
 
 
-            <TouchableWithoutFeedback onPress={() => {
-                navigation.navigate('InformasiDetail', item)
+
+            <View style={{
+                marginBottom: 10,
+                backgroundColor: colors.white,
+                width: '100%',
+                position: 'relative',
+                borderRadius: 10,
+                overflow: 'hidden',
+                padding: 10,
             }}>
-                <View style={{
-                    marginBottom: 10,
-                    width: '100%',
-                    position: 'relative',
-                    borderRadius: 10,
-                    overflow: 'hidden'
-                }}>
-                    <Image
-                        source={{ uri: item.image }}
-                        style={{
-                            // resizeMode: 'contain',
-                            height: 250,
-                            width: '100%',
-                        }}
-                    />
-                    <View style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        width: '100%',
-                        padding: 10,
-                        backgroundColor: colors.tertiary,
-                        opacity: 0.9
-                    }}>
-                        <Text style={{
-                            fontFamily: fonts.secondary[600],
-                            color: colors.white,
-                            fontSize: DimensionThisPhone / 22
-                        }}>{item.judul}</Text>
-                        <Text style={{
-                            fontFamily: fonts.secondary[400],
-                            color: colors.white,
-                            fontSize: DimensionThisPhone / 22
-                        }}>{moment(item.tanggal).format('dddd, DD MMM YYYY')}</Text>
-                    </View>
-                </View>
-            </TouchableWithoutFeedback>
+
+                <Text style={{
+                    fontFamily: fonts.secondary[800],
+                    fontSize: DimensionThisPhone / 20
+                }}>{item.judul}</Text>
+
+                <Text style={{
+                    fontFamily: fonts.secondary[600],
+                    fontSize: DimensionThisPhone / 22
+                }}>{item.pesan}</Text>
+                <Text style={{
+                    textAlign: 'right',
+                    fontFamily: fonts.secondary[400],
+                    fontSize: DimensionThisPhone / 25
+                }}>{item.tanggal} {item.jam}</Text>
+
+            </View>
+
 
 
 
@@ -80,12 +73,12 @@ export default function ({ navigation, route }) {
     const [key, setKey] = useState('');
     const [TMP, setTMP] = useState({});
     return (
-        <ImageBackground source={require('../../assets/back.jpg')} style={{
+        <SafeAreaView style={{
             flex: 1,
-            backgroundColor: colors.white
+            backgroundColor: colors.border
         }}>
 
-            <MyHeader judul="Informasi" onPress={() => navigation.goBack()} />
+            <MyHeader judul="Notifikasi" onPress={() => navigation.goBack()} />
 
 
 
@@ -116,7 +109,7 @@ export default function ({ navigation, route }) {
                             top: 10,
                             left: 10,
                         }}>
-                            <Icon type='ionicon' name='search' color={colors.white} />
+                            <Icon type='ionicon' name='search' color={colors.primary} />
                         </View>
                         <TextInput value={key} onChangeText={x => {
                             setKey(x);
@@ -128,18 +121,16 @@ export default function ({ navigation, route }) {
                             } else {
                                 setData(TMP);
                             }
-                        }} placeholder='Pencarian . . .'
-                            placeholderTextColor={colors.white}
-                            style={{
-                                height: 45,
-                                borderWidth: 1,
-                                marginBottom: 10,
-                                borderRadius: 30,
-                                paddingLeft: 40,
-                                borderColor: colors.white,
-                                fontFamily: fonts.secondary[600],
-                                fontSize: DimensionThisPhone / 22
-                            }} />
+                        }} placeholder='Pencarian . . .' style={{
+                            height: 45,
+                            borderWidth: 1,
+                            marginBottom: 10,
+                            borderRadius: 30,
+                            paddingLeft: 40,
+                            borderColor: colors.primary,
+                            fontFamily: fonts.secondary[600],
+                            fontSize: DimensionThisPhone / 22
+                        }} />
                     </View>
                     <FlatList data={data} showsVerticalScrollIndicator={false} renderItem={__renderItem} />
 
@@ -158,7 +149,7 @@ export default function ({ navigation, route }) {
 
 
 
-        </ImageBackground>
+        </SafeAreaView>
     )
 }
 

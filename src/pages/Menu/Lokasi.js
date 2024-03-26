@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Linking, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, ImageBackground, Linking, SafeAreaView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { DimensionThisPhone, colors, fonts, windowHeight, windowWidth } from '../../utils'
 import { Icon } from 'react-native-elements';
@@ -36,6 +36,7 @@ export default function ({ navigation, route }) {
             }}>
                 <View style={{
                     backgroundColor: colors.white,
+                    opacity: 0.9,
                     padding: 10,
                     height: 100,
                     marginBottom: 20,
@@ -67,7 +68,7 @@ export default function ({ navigation, route }) {
     const [key, setKey] = useState('');
     const [TMP, setTMP] = useState({});
     return (
-        <SafeAreaView style={{
+        <ImageBackground source={require('../../assets/back.jpg')} style={{
             flex: 1,
             backgroundColor: colors.border
         }}>
@@ -99,7 +100,7 @@ export default function ({ navigation, route }) {
 
 
 
-        </SafeAreaView>
+        </ImageBackground>
     )
 }
 
