@@ -100,10 +100,34 @@ export default function Home({ navigation, route }) {
         channelId: 'teloletID', // (required) channelId, if the channel doesn't exist, notification will not trigger.
         title: obj.title, // (optional)
         message: obj.body, // (required)
+        vibrate: true,
+        soundName: 'tni'
       });
     });
 
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+
+      const json = JSON.stringify(remoteMessage.notification);
+      const obj = JSON.parse(json);
+
+      console.log('remote message', remoteMessage);
+
+      // alert(obj.notification.title)
+      PlaySuara();
+      PushNotification.localNotification({
+        /* Android Only Properties */
+        channelId: 'teloletID', // (required) channelId, if the channel doesn't exist, notification will not trigger.
+        title: obj.title, // (optional)
+        message: obj.body, // (required)
+        vibrate: true,
+        soundName: 'tni'
+      });
+    });
+
+
     return unsubscribe;
+
+
 
 
   }, [])
@@ -281,7 +305,13 @@ export default function Home({ navigation, route }) {
         }}>
 
           <MyList label='Profil Satuan' onPress={() => navigation.navigate('Satuan')} img={require('../../assets/A1.png')} />
-          <MyList label='Alarm' onPress={() => navigation.navigate('Notifikasi')} img={require('../../assets/A2.png')} />
+          <MyList label='Alarm' onPress={() => {
+            if (user.level == 'Admin') {
+              navigation.navigate('Notifikasi')
+            } else {
+              Alert.alert(MYAPP, 'Maaf tidak bisa melanjutkan tindakan, menu ini khusus pengguna Admin !')
+            }
+          }} img={require('../../assets/A2.png')} />
         </View>
         <View style={{
           marginTop: 10,
