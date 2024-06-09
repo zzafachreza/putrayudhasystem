@@ -18,7 +18,7 @@ export default function App() {
       channelName: 'teloletID', // (required)
       channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
       playSound: true, // (optional) default: true
-      soundName: 'telolet', // (optional) See `soundName` parameter of `localNotification` function
+      soundName: 'tni', // (optional) See `soundName` parameter of `localNotification` function
       vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
       local_notification: true, // prevent loop
 

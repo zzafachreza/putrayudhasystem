@@ -253,14 +253,7 @@ export default function Home({ navigation, route }) {
 
         <TouchableOpacity onPress={() => {
           // navigation.navigate('Account')
-          PlaySuara();
-          PushNotification.localNotification({
-            /* Android Only Properties */
-            channelId: 'teloletID', // (required) channelId, if the channel doesn't exist, notification will not trigger.
-            title: 'Telolet', // (optional)
-            message: 'Ayo Segera berangkat !', // (required)
-          });
-          PlaySuara()
+
         }} style={{
           position: 'relative',
           flex: 1,
@@ -306,11 +299,18 @@ export default function Home({ navigation, route }) {
 
           <MyList label='Profil Satuan' onPress={() => navigation.navigate('Satuan')} img={require('../../assets/A1.png')} />
           <MyList label='Alarm' onPress={() => {
-            if (user.level == 'Admin') {
-              navigation.navigate('Notifikasi')
-            } else {
-              Alert.alert(MYAPP, 'Maaf tidak bisa melanjutkan tindakan, menu ini khusus pengguna Admin !')
-            }
+            getData('user').then(uu => {
+              axios.post(apiURL + 'get_level', {
+                id: uu.id
+              }).then(res => {
+                console.log(res.data)
+                if (res.data.level == 'Admin') {
+                  navigation.navigate('Notifikasi')
+                } else {
+                  Alert.alert(MYAPP, 'Maaf tidak bisa melanjutkan tindakan, menu ini khusus pengguna Admin !')
+                }
+              })
+            })
           }} img={require('../../assets/A2.png')} />
         </View>
         <View style={{
