@@ -1,10 +1,10 @@
-import { FlatList, Image, ImageBackground, Linking, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Alert, FlatList, Image, ImageBackground, Linking, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { DimensionThisPhone, MyDimensi, colors, fonts, windowHeight, windowWidth } from '../../utils'
 import { MyButton, MyGap, MyHeader, MyInput, MyPicker } from '../../components'
 import axios from 'axios';
-import { apiURL, webURL } from '../../utils/localStorage'
+import { apiURL, MYAPP, webURL } from '../../utils/localStorage'
 import { showMessage } from 'react-native-flash-message'
 import RenderHtml from 'react-native-render-html';
 import moment from 'moment'
@@ -50,13 +50,38 @@ export default function Pushdata({ navigation, route }) {
                     }} />
                     <MyGap jarak={20} />
                     <MyButton title="ALARM" onPress={() => {
-                        axios.post(apiURL + 'alarm', kirim).then(res => {
-                            console.log(res.data);
-                            showMessage({
-                                message: 'Alarm Berhasil untuk ' + item.nama_kantor
-                            });
-                            navigation.goBack();
-                        })
+
+                        if (kirim.judul.length == 0) {
+                            Alert.alert(MYAPP, 'Judul Wajib di isi !');
+                        } else if (kirim.pesan.length == 0) {
+                            Alert.alert(MYAPP, 'Pesan wajib di isi !');
+                        } else {
+                            let theurl = `https://apiv2.okeadmin.com/putrayudhasystem/index.php?fid_satuan=${route.params.id}&judul=${kirim.judul}&pesan=${kirim.pesan}&direct=https://putrayudhasystem.okeadmin.com/notifikasi`;
+                            console.log(theurl)
+                            axios.get(theurl).then(res => {
+                                console.log(res.data);
+                                showMessage({
+                                    message: 'Alarm Berhasil untuk ' + item.nama_kantor
+                                });
+                                navigation.goBack();
+                            })
+                        }
+
+
+
+
+
+                        // Linking.openURL('https://apiv2.okeadmin.com/putrayudhasystem/index.php?fid_satuan=2&judul=test&pesan=123&direct=https://putrayudhasystem.okeadmin.com/notifikasi')
+
+
+
+                        // axios.post(apiURL + 'alarm', kirim).then(res => {
+                        //     console.log(res.data);
+                        //     showMessage({
+                        //         message: 'Alarm Berhasil untuk ' + item.nama_kantor
+                        //     });
+                        //     navigation.goBack();
+                        // })
                     }} />
                 </View>
 

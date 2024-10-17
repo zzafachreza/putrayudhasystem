@@ -19,6 +19,8 @@ import { getDistance, convertDistance } from 'geolib';
 import { showMessage } from 'react-native-flash-message';
 import LinearGradient from 'react-native-linear-gradient';
 import SoundPlayer from 'react-native-sound-player'
+import { checkNotifications, requestNotifications, request, PERMISSIONS } from 'react-native-permissions';
+
 export default function Home({ navigation, route }) {
 
 
@@ -45,7 +47,19 @@ export default function Home({ navigation, route }) {
     }
   }
 
+  const CekIzinNotifikasi = async () => {
+    checkNotifications().then(({ status, settings }) => {
+      if (status !== 'granted') {
+        requestNotifications(['alert', 'sound']).then(({ status, settings }) => {
+
+        });
+      }
+    });
+  }
+
   useEffect(() => {
+
+    CekIzinNotifikasi();
 
     Animated.timing(ImageAnimation, {
       toValue: 0,
@@ -252,7 +266,8 @@ export default function Home({ navigation, route }) {
         </View>
 
         <TouchableOpacity onPress={() => {
-          // navigation.navigate('Account')
+          SoundPlayer.playSoundFile('tnai', 'mp3')
+          SoundPlayer.stop();
 
         }} style={{
           position: 'relative',
